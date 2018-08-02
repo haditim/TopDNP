@@ -19,6 +19,7 @@ scriptPath = 'C:\Bruker\TopSpin3.2\exp\stan\\nmr\py\user'  # The path this code 
 expsPath = 'C:\NMRUserData\HadiTimachi'
 waitTime = 4  # Time to wait after giving order to B12
 powerReadoutAverage = 50  # The number of averages made to get the real power readout
+powerMeterCalib = 19.46  # The T connection calibration value. This will be added to dBm readout
 
 import os
 import subprocess
@@ -133,9 +134,10 @@ dia = dialogs.MultiLineInputDia("TopDNP",
                                  "Minimum power set for T1 [dBm] = ",
                                  "Maximum power set for T1 [dBm] = ",
                                  "Number of steps for T1 series = ",
-                                 "NS for T1"],
-                                ["0", "30", "10", "3", "1", "0", "30", "4", "3"],
-                                ["1", "1", "1", "1", "1", "1", "1", "1", "1"], ["", "", "", "", "", "", "", "", ""],
+                                 "NS for T1",
+                                 "Time to waite between exps. [min]"],
+                                ["0", "30", "10", "3", "1", "0", "30", "4", "3", "2"],
+                                ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"], ["", "", "", "", "", "", "", "", "", ""],
                                 None, None, 0, 15, 0, None)
 dia.setExitUponEnter(0)
 dia.setVisible(1)
@@ -144,8 +146,9 @@ result = dia.getValues()
 if result == None:  # Canceled by user
     EXIT()
 else:
-    dnpMinP, dnpMaxP, dnpSteps, dnpNS, doT1, t1MinP, t1MaxP, t1Steps, t1NS = result
+    dnpMinP, dnpMaxP, dnpSteps, dnpNS, doT1, t1MinP, t1MaxP, t1Steps, t1NS, interExpDelay = result
 
+interExpDelay = float(interExpDelay)
 dnpPowerRange = [round(x, 1) for x in dec_range_non_linear(dnpMinP, dnpMaxP, int(dnpSteps))]
 t1PowerRange = [round(x, 1) for x in dec_range_linear(t1MinP, t1MaxP, int(t1Steps))]
 if int(doT1) == 1:
@@ -183,6 +186,9 @@ XCMD("NS " + dnpNS)
 ZG()
 EFP()
 MSG("Please adjust frequency offset THEN click close to continue.", "TopDNP frequency adjustment")
+ZG()
+if not CONFIRM("TopDNP confirmation", "Please turn MW on.") == 1:
+    EXIT()
 # DNP loop
 for i, dnpSet in enumerate(dnpPowerRange):
     curExpNo = str(i + 2)
@@ -200,6 +206,7 @@ for i, dnpSet in enumerate(dnpPowerRange):
         powerAvg += powerConn.read_power()
         time.sleep(.1)
     powerAvg /= float(powerReadoutAverage)
+    powerAvg += float(powerMeterCalib)
     # MSG("power for exp %s powerset %s is %s" % (curExpNo, str(int(dnpSet * 10)), str(powerAvg)))
     try:
         os.makedirs(curExpPath)
@@ -222,7 +229,9 @@ for i, dnpSet in enumerate(dnpPowerRange):
     RE([str(expNameResult[1]), curExpNo, "1", str(expNameResult[0])], "y")
     # run the experiment
     ZG()
+    time.sleep(interExpDelay*60)
 # Making power zero again
+b12File = open(b12TempFile, 'r+')
 b12File.write("power 0 \n")
 b12File.close()
 # I would wait 5 minutes
@@ -244,6 +253,7 @@ if doT1 and t1Steps>0:
             powerAvg += powerConn.read_power()
             time.sleep(.1)
         powerAvg /= float(powerReadoutAverage)
+        powerAvg += float(powerMeterCalib)
         # MSG("power for exp %s powerset %s is %s" % (curExpNo, str(int(dnpSet * 10)), str(powerAvg)))
         if i != 0:
             try:
@@ -265,7 +275,9 @@ if doT1 and t1Steps>0:
         RE([str(expNameResult[1]), curExpNo, "1", str(expNameResult[0])], "y")
         # run the experiment
         ZG()
+        time.sleep(interExpDelay*60)
 # Making power zero again
+b12File = open(b12TempFile, 'r+')
 b12File.write("power 0 \n")
 b12File.close()
 # Yay?
