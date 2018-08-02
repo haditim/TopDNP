@@ -15,6 +15,7 @@ b12RunTime = '30' # The time that the external code for B12 should keep running 
 # IP address of gpib to etherenet converter connected to power meter
 pMeterIP = '134.147.197.144'
 # General parameters
+scriptPath = 'C:\Bruker\TopSpin3.2\exp\stan\\nmr\py\user'  # The path this code is in
 expsPath = 'C:\NMRUserData\HadiTimachi'
 waitTime = 4  # Time to wait after giving order to B12
 powerReadoutAverage = 50  # The number of averages made to get the real power readout
@@ -99,7 +100,7 @@ dT = datetime.date.today().strftime("%Y%m%d_CWODNP_")
 try:
     powerConn = connect_to_power_meter()
 except:
-    ERRMSG("Error in connecting to power meter. Is it connected?!", "Power meter error")
+    ERRMSG("Error in connecting to power meter. Is it powered on?!", "Power meter error")
     EXIT()
 
 # Ask for exp. name and folder
@@ -157,8 +158,8 @@ if int(doT1) == 1:
         os.makedirs(os.path.join(expPath, "1"))
         os.makedirs(os.path.join(expPath, "50"))
         # This is not a good idea, but Bruker runs the code in another folder
-        os.system("xcopy C:\Bruker\TopSpin3.2\exp\stan\\nmr\py\user\\1 %s /E" % os.path.join(expPath, "1"))
-        os.system("xcopy C:\Bruker\TopSpin3.2\exp\stan\\nmr\py\user\\50 %s /E" % os.path.join(expPath, "50"))
+        os.system("xcopy %s %s /E" % (os.path.join(scriptPath, "1"), os.path.join(expPath, "1")))
+        os.system("xcopy %s %s /E" % (os.path.join(scriptPath, "50"), os.path.join(expPath, "50")))
     except:
         # ERRMSG("Error copying folders!", "Copy error")
         # EXIT()
@@ -171,7 +172,7 @@ else:
     try:
         os.makedirs(os.path.join(expPath, "1"))
         # This is not a good idea, but Bruker runs the code in another folder
-        os.system("xcopy C:\Bruker\TopSpin3.2\exp\stan\\nmr\py\user\\1 %s /E" % os.path.join(expPath, "1"))
+        os.system("xcopy %s %s /E" % (os.path.join(scriptPath, "1"), os.path.join(expPath, "1")))
     except:
         pass
 
@@ -232,9 +233,8 @@ if doT1 and t1Steps>0:
         powerAvg = 0
         # Set B12
         b12File = open(b12TempFile, 'r+')
-        b12File.write("power %s \n" % str(int(dnpSet * 10)))
+        b12File.write("power %s \n" % str(int(t1Set * 10)))
         b12File.close()
-        # This should be optimized
         time.sleep(waitTime)
         for j in range(0, powerReadoutAverage):
             powerAvg += powerConn.read_power()
