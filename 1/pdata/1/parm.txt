@@ -1,0 +1,40 @@
+
+Current Data Parameters
+NAME     150729_NMRTest              
+EXPNO                 1              
+PROCNO                1              
+
+F2 - Acquisition Parameters
+Date_          20150729              
+Time              11.14              
+INSTRUM           spect              
+PROBHD   5 mm ODNP BB-B              
+PULPROG              zg              
+TD                16384              
+SOLVENT             D2O              
+NS                    1              
+DS                    0              
+SWH          100000.000 Hz           
+FIDRES         6.103516 Hz           
+AQ            0.0819200 sec          
+RG               197.09              
+DW                5.000 usec         
+DE                 4.60 usec         
+TE       0 K            
+D1           1.00000000 sec          
+TD0                   1              
+
+======== CHANNEL f1 ========
+SFO1         14.8000000 MHz          
+NUC1                14N              
+P1                 2.00 usec         
+PLW1        50.00000000 W            
+
+F2 - Processing parameters
+SI                16384              
+SF           14.8400337 MHz          
+WDW                  EM              
+SSB      0              
+LB                 0.30 Hz           
+GB       0              
+PC                 1.00              

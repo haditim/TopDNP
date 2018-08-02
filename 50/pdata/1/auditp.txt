@@ -1,0 +1,23 @@
+##TITLE= Audit trail, TOPSPIN		Version 3.2
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmrsu
+$$ C:/NMRUserData/Svetlana/20180515_H2O_07Tube_NewLongFixedCoil/30/pdata/1/auditp.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2018-05-15 15:26:44.176 +0200>,<nmrsu>,<CZC5064J6S>,<go>,<TOPSPIN 3.2>,
+      <created by zg
+	started at 2018-05-15 15:16:14.958 +0200,
+	POWCHK enabled, PULCHK disabled,
+       configuration hash MD5:
+       A4 10 7F 46 6D B2 6B DF D5 38 ED 9A D1 53 E1 C0
+       data hash MD5: 5986 * 10
+       3A 53 11 A5 58 BD 06 4B 79 0A E5 94 78 4C E1 38>)
+(   2,<2018-05-15 15:33:15.231 +0200>,<nmrsu>,<CZC5064J6S>,<proc2d>,<TOPSPIN 3.2>,
+      <Start of raw data processing
+       xf2 F2: SI = 256K BC_mod = 2 WDW = 1 LB = 0.3 FT_mod = 6 PKNL = 1 F1: SI = 1K MC2 = 0
+       data hash MD5: 256K * 1K
+       2C 6E 60 1D BB 79 A4 B5 5E 9F 87 CC 19 DB E7 1A>)
+##END=
+
+$$ hash MD5
+$$ F7 73 8A FA AB 7E 9B 18 0B 67 09 4A 6C 0F 79 B8

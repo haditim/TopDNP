@@ -1,0 +1,23 @@
+##TITLE= Audit trail, TOPSPIN		Version 3.2
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmrsu
+$$ C:/NMRUserData/Svetlana/20180518_TCDA1_ON_pH11/1/pdata/1/auditp.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2018-05-18 17:25:05.737 +0200>,<nmrsu>,<CZC5064J6S>,<go>,<TOPSPIN 3.2>,
+      <created by zg
+	started at 2018-05-18 17:24:46.566 +0200,
+	POWCHK enabled, PULCHK disabled,
+       configuration hash MD5:
+       A4 10 7F 46 6D B2 6B DF D5 38 ED 9A D1 53 E1 C0
+       data hash MD5: 19996
+       19 58 DA EE AD 7C 4C BA 64 36 DA D8 C4 43 9F E5>)
+(   2,<2018-05-18 17:25:09.599 +0200>,<nmrsu>,<CZC5064J6S>,<proc1d>,<TOPSPIN 3.2>,
+      <Start of raw data processing
+       efp BC_mod = 2 LB = 0.3 FT_mod = 6 PKNL = 1 PHC0 = 162.6448 PHC1 = -182.4817 SI = 16K 
+       data hash MD5: 16K
+       28 02 A8 95 89 18 E0 08 59 6C 30 58 07 2E E5 F5>)
+##END=
+
+$$ hash MD5
+$$ 3A EC 1F A2 E4 23 E9 D0 BC 89 DD 4B 4F 61 E6 DD

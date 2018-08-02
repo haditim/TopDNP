@@ -1,0 +1,17 @@
+##TITLE= Audit trail, TOPSPIN		Version 3.2
+##JCAMPDX= 5.01
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmrsu
+$$ C:/NMRUserData/RyanBarnes/150907_CheYPep_T71C_NaPi_RT_ODNP/1/pdata/999/auditp.txt
+##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
+(   1,<2015-09-07 10:14:20.606 +0200>,<nmrsu>,<CZC5064J6S>,<paropt>,<TOPSPIN 3.2>,
+      <created by paropt of parameter: P 1  start value: 1  increment: 1
+       from 10 experiments in PROCNO 1
+       using 476 points per experiment between 3757.78 and 3582.69 ppm
+       maximum intensity found in experiment 4
+       data hash MD5: 4760
+       5C AC 32 89 C9 B4 17 B3 F5 1B C0 82 9E A3 1F 8E>)
+##END=
+
+$$ hash MD5
+$$ 22 5F 65 A7 DA BC 95 95 55 99 5B DF D0 BA AD 90

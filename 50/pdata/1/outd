@@ -1,0 +1,16 @@
+##TITLE= Parameter file, TOPSPIN		Version 3.2
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 2	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmrsu
+$$ 2018-05-11 19:34:35.750 +0200  nmrsu@CZC5064J6S
+$$ C:/NMRUserData/Svetlana/160524_ODNPTesting/29/pdata/1/outd
+$$ process C:\Bruker\TopSpin3.2\prog\mod\t1.exe
+##$CURPLOT= <NMR-lj1200>
+##$CURPRIN= <$noprint>
+##$DFORMAT= <normdp>
+##$LAYOUT= <+/1D_H.xwp>
+##$LFORMAT= <normlp>
+##$PFORMAT= <normpl>
+##END=

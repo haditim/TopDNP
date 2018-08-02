@@ -1,0 +1,46 @@
+##TITLE= Parameter file, TOPSPIN		Version 3.2
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 317	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmrsu
+$$ 2018-05-15 15:41:27.151 +0200  nmrsu@CZC5064J6S
+$$ C:/NMRUserData/Svetlana/20180515_H2O_07Tube_NewLongFixedCoil/30/pdata/1/t1par
+$$ process C:\Bruker\TopSpin3.2\prog\mod\dataserver.exe
+##$BIGDEL= 100
+##$CALCDN= no
+##$COMPNO= 1
+##$CONV= 1e-005
+##$CURSOR= 1
+##$DRIFT= 5
+##$EDGUESS= 0
+##$EDPARM= 0
+##$FCTTYPE= 0
+##$FIDNUMB= 10
+##$FITT1T2= 0
+##$FITTYPE= 1
+##$GAMM= 10000
+##$GRADIEN= 1
+##$GUESSES= (0..23)
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##$INC= 1
+##$INTRNG= 1
+##$LISTINC= 0.001
+##$LISTTYP= <vdlist>
+##$LITDEL= 10
+##$MAXPNTS= 10
+##$NUMPNTS= 10
+##$NUMTERM= 3
+##$PARM= (0..11)
+0 0 0 0 0 0 0 0 0 0 0 0
+##$PDTYP= <pd>
+##$REGIONS= 1
+##$SHOWINT= no
+##$SHOWPP= yes
+##$SHOWTXT= 1
+##$START= 1
+##$X_END= 30
+##$X_START= 0.02
+##$Y_END= 5.967118e+011
+##$Y_START= -6.818523e+011
+##END=

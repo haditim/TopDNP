@@ -1,0 +1,11 @@
+##TITLE= Parameter file, TOPSPIN		Version 3.2
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 6	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmrsu
+$$ 2018-05-18 15:52:21.756 +0200  nmrsu@CZC5064J6S
+$$ C:/NMRUserData/Svetlana/20180518_TCDA1_ON_pH11/1/pdata/1/assocs
+$$ process C:\Bruker\TopSpin3.2\prog\mod\dataserver.exe
+##$MULTDISP= <C:/NMRUserData/Svetlana/20180518_/1/pdata/1>
+##END=
