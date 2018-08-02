@@ -104,7 +104,7 @@ except:
     EXIT()
 
 # Ask for exp. name and folder
-expNameDia = dialogs.MultiLineInputDia("",
+expNameDia = dialogs.MultiLineInputDia("TopDNP",
                                        "Please enter parameters for the new DNP experiment:",
                                        ["Folder path", "Folder name"],
                                        [expsPath, dT],
@@ -123,7 +123,7 @@ else:
 
 MSG("Experiment path is going to be: \n %s" % str(expPath))
 
-dia = dialogs.MultiLineInputDia("",
+dia = dialogs.MultiLineInputDia("TopDNP",
                                 "Please enter parameters for experiment:",
                                 ["Minimum power set for DNP [dBm] = ",
                                  "Maximum power set for DNP [dBm] = ",
@@ -149,7 +149,7 @@ else:
 dnpPowerRange = [round(x, 1) for x in dec_range_non_linear(dnpMinP, dnpMaxP, int(dnpSteps))]
 t1PowerRange = [round(x, 1) for x in dec_range_linear(t1MinP, t1MaxP, int(t1Steps))]
 if int(doT1) == 1:
-    if not CONFIRM("CONFIRMATION", "About to do DNP and T1 series \n" +
+    if not CONFIRM("TopDNP confirmation", "About to do DNP and T1 series \n" +
                                    "DNP power range: %s" % str(dnpPowerRange) +
                                    "\n T1 power range: %s" % str(t1PowerRange) +
                                    "\n Is it correct?") == 1:
@@ -165,7 +165,7 @@ if int(doT1) == 1:
         # EXIT()
         pass
 else:
-    if not CONFIRM("CONFIRMATION", "About to do DNP\n" +
+    if not CONFIRM("TopDNP confirmation", "About to do DNP\n" +
                                    "DNP power range: %s" % str(dnpPowerRange) +
                                    "\n Is it correct?") == 1:
         EXIT()
@@ -182,7 +182,7 @@ XCMD("NS " + dnpNS)
 # run freq adjustment
 ZG()
 EFP()
-MSG("Please adjust frequency offset THEN click close to continue.", "Frequency adjustment")
+MSG("Please adjust frequency offset THEN click close to continue.", "TopDNP frequency adjustment")
 # DNP loop
 for i, dnpSet in enumerate(dnpPowerRange):
     curExpNo = str(i + 2)
@@ -209,7 +209,7 @@ for i, dnpSet in enumerate(dnpPowerRange):
         if os.path.exists(os.path.join(curExpPath, "pdata", "999")):
             os.system("RMDIR %s /s /q" % os.path.join(curExpPath, "pdata", "999"))
     except:
-        ERRMSG("Error copying folders!", "Copy error")
+        ERRMSG("Error copying folders!", "TopDNP copy error")
         EXIT()
     try:
         if os.path.isfile(os.path.join(curExpPath, "pdata", "1", "title")):
@@ -218,11 +218,15 @@ for i, dnpSet in enumerate(dnpPowerRange):
         titleFile.write("CWODNP set %.3f dBm" % powerAvg)
         titleFile.close()
     except:
-        ERRMSG("Error changing title!", "Title change error")
+        ERRMSG("Error changing title!", "TopDNP title change error")
     RE([str(expNameResult[1]), curExpNo, "1", str(expNameResult[0])], "y")
     # run the experiment
     ZG()
-
+# Making power zero again
+b12File.write("power 0 \n")
+b12File.close()
+# I would wait 5 minutes
+time.sleep(5)
 # T1 loop
 if doT1 and t1Steps>0:
     for i, t1Set in enumerate(t1PowerRange):
@@ -248,7 +252,7 @@ if doT1 and t1Steps>0:
                 if os.path.isfile(os.path.join(curExpPath, "ser")):
                     os.remove(os.path.join(curExpPath, "ser"))
             except:
-                ERRMSG("Error copying T1 folders!", "Copy error")
+                ERRMSG("Error copying T1 folders!", "TopDNP copy error")
                 EXIT()
         try:
             if os.path.isfile(os.path.join(curExpPath, "pdata", "1", "title")):
@@ -257,8 +261,8 @@ if doT1 and t1Steps>0:
             titleFile.write("T1 set %.3f dBm" % powerAvg)
             titleFile.close()
         except:
-            ERRMSG("Error changing T1 exp. title!", "Title change error")
+            ERRMSG("Error changing T1 exp. title!", "TopDNP title change error")
         RE([str(expNameResult[1]), curExpNo, "1", str(expNameResult[0])], "y")
         # run the experiment
         ZG()
-MSG("DNP exp. done", "Done")
+MSG("DNP exp. done", "TopDNP done")
