@@ -28,7 +28,7 @@ import time
 import imports.gpib_eth as g
 
 # Start code to control B12
-subprocess.Popen('%s %s %s' % (python27Path, b12CodePath, b12TempFile))
+subprocess.Popen('%s %s %s %s' % (python27Path, b12CodePath, b12TempFile, str(waitTime)))
 
 
 # Functions we need :
@@ -265,4 +265,8 @@ if doT1 and t1Steps>0:
         RE([str(expNameResult[1]), curExpNo, "1", str(expNameResult[0])], "y")
         # run the experiment
         ZG()
+# Making power zero again
+b12File.write("power 0 \n")
+b12File.close()
+# Yay?
 MSG("DNP exp. done", "TopDNP done")
