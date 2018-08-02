@@ -14,7 +14,7 @@
 You should download this whole package from the [[https://github.com/haditim/TopDNP][Github repository]] and extract it in the path ~C:\Bruker\TopSpin3.2\exp\stan\nmr\py\user\~ which puts TopDNP.py in the right folder for TopSpin. Then the parameters on the top of TopDNP.py should be adjusted to match the setup. The rest of the experiment variables will be asked during the experiment. Also make sure you have Python 2.7 and package ~Pyserial~ installed.
 
 * Run from TopSpin
-Once files are copied, run edpy. In the Python codes list switch to ~C:\Bruker\TopSpin3.2\exp\stan\nmr\py\user\~. Then execute TopDNP.py.
+Once files are copied, run edpy. In the Python codes list switch to ~C:\Bruker\TopSpin3.2\exp\stan\nmr\py\user\~. Do the normal TopSpin commands (~ii~, ~edhead~, etc.). Run your CW using Xepr. Then execute TopDNP.py. The UI should guide you through your experiment.
 
 * Current problems
 Unfortunately, TopSpin uses Jython for Python implementation which lacks some functionalities and is limited to Python 2.5. Thus, Pyserial library cannot be used and I had to call another Python function from outside the TopSpin and interface it to TopDNP using a temporary file. This is not perfect and errors from the second code do not show up in the main window of TopSpin (although they are mostly shown in TopSpin's command window). I also had to define a timeout for this code so that it closes after some time and releases the COM port to which B12 is connected. We should find a solution to this. But for now it is the best workaround I could come up with.
