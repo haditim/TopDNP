@@ -2,7 +2,7 @@
 
   *TopDNP* is a Python code package to automate continuous wave (CW) Overhauser dynamic nuclear polarization (ODNP) experiments using Bridge12 microwave power source and TopSpin from Bruker.
 #+attr_html: :width 100%
-[[file:http://www.spintoolbox.com
+[[file:http://www.spintoolbox.com/media/filer_public_thumbnails/filer_public/cd/84/cd843b1c-e56a-4538-8697-dccb0c9293ee/topdnp_screenshot.gif__1169x723_q85_subsampling-2.jpg]]
 
 * Experiments naming style
 
