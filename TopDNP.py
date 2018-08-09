@@ -90,7 +90,7 @@ freqResult = INPUT_DIALOG("Frequency input",
                           "Turn on nitrogen flow and unplug the mod. coil\n "
                           "AND\n"
                           "enter center frequency to set for B12.",
-                          ["Frequency [kHz] = "], ["9600000"], [""], ["1"])
+                          ["Frequency [kHz] = "], ["9800000"], [""], ["1"])
 b12File.write("power 0 \n")
 b12File.write("freq " + freqResult[0] + "\n")
 b12File.close()
@@ -138,8 +138,8 @@ dia = dialogs.MultiLineInputDia("TopDNP",
                                  "Number of steps for T1 series = ",
                                  "NS for T1",
                                  "D1 for T1 (recommended 25s for NS>1)",
-                                 "Time to wait between exps. [min]"],
-                                ["0", "30", "10", "1", "5", "1", "0", "30", "4", "1", "5", "1"],
+                                 "Time to wait between exps. [s]"],
+                                ["0", "30", "10", "1", "5", "1", "0", "30", "4", "1", "5", "60"],
                                 ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"], ["", "", "", "", "", "", "", "", "", "", "", ""],
                                 None, None, 0, 15, 0, None)
 dia.setExitUponEnter(0)
@@ -183,7 +183,6 @@ else:
         pass
 
 RE([str(expNameResult[1]), "1", "1", str(expNameResult[0])], "y")
-MSG('TD is: '+test)
 # set NS & D1
 XCMD("NS " + dnpNS)
 XCMD("D1 " + dnpD1)
@@ -238,7 +237,7 @@ for i, dnpSet in enumerate(dnpPowerRange):
     RE([str(expNameResult[1]), curExpNo, "1", str(expNameResult[0])], "y")
     # run the experiment
     ZG()
-    time.sleep(interExpDelay*60)
+    time.sleep(interExpDelay)
 # Try to get O1 for offset
 dnpO1 = GETPAR2("O1")
 MSG("O1 is: "+dnpO1 ,"O1")
@@ -293,7 +292,7 @@ if doT1 and t1Steps>0:
         XCMD("O1 " + t1O1)
         # run the experiment
         ZG()
-        time.sleep(interExpDelay*60)
+        time.sleep(interExpDelay)
 # Making power zero again
 b12File = open(b12TempFile, 'r+')
 b12File.write("power 0 \n")
