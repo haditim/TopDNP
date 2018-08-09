@@ -137,9 +137,9 @@ dia = dialogs.MultiLineInputDia("TopDNP",
                                  "Maximum power set for T1 [dBm] = ",
                                  "Number of steps for T1 series = ",
                                  "NS for T1",
-                                 "D1 for T1 (recommended 25s for NS>1)",
+                                 "D1 for T1",
                                  "Time to wait between exps. [s]"],
-                                ["0", "30", "10", "1", "5", "1", "0", "30", "4", "1", "5", "60"],
+                                ["0", "30", "10", "1", "5", "1", "0", "30", "4", "1", "15", "60"],
                                 ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"], ["", "", "", "", "", "", "", "", "", "", "", ""],
                                 None, None, 0, 15, 0, None)
 dia.setExitUponEnter(0)
@@ -240,7 +240,7 @@ for i, dnpSet in enumerate(dnpPowerRange):
     time.sleep(interExpDelay)
 # Try to get O1 for offset
 dnpO1 = GETPAR2("O1")
-MSG("O1 is: "+dnpO1 ,"O1")
+# MSG("O1 is: "+dnpO1 ,"O1")
 t1O1 = float(dnpO1)-50000
 # Making power zero again
 b12File = open(b12TempFile, 'r+')
@@ -289,7 +289,7 @@ if doT1 and t1Steps>0:
         XCMD("NS " + t1NS)
         XCMD("D1 " + t1D1)
         # set O1
-        XCMD("O1 " + t1O1)
+        XCMD("O1 " + str(t1O1))
         # run the experiment
         ZG()
         time.sleep(interExpDelay)
@@ -298,4 +298,4 @@ b12File = open(b12TempFile, 'r+')
 b12File.write("power 0 \n")
 b12File.close()
 # Yay?
-MSG("DNP exp. done!\n Turn off nitrogen flow!", "TopDNP done")
+MSG("DNP exp. done!\n Turn off nitrogen flow!\nTurn MW off!", "TopDNP done")
