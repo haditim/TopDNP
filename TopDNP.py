@@ -87,6 +87,7 @@ b12File = open(b12TempFile, 'r+')
 freqResult = INPUT_DIALOG("Frequency input",
                           "Please set the waveguide switch to DNP mode\n"
                           "(and yell at B12 for not implementing this yet)\n "
+                          "Turn on nitrogen flow and unplug the mod. coil\n "
                           "AND\n"
                           "enter center frequency to set for B12.",
                           ["Frequency [kHz] = "], ["9600000"], [""], ["1"])
@@ -130,14 +131,16 @@ dia = dialogs.MultiLineInputDia("TopDNP",
                                  "Maximum power set for DNP [dBm] = ",
                                  "Number of steps for DNP series = ",
                                  "NS for DNP",
+                                 "D1 for DNP (recommended 25s for NS>1)",
                                  "Do T1 series [0=No, 1=Yes]",
                                  "Minimum power set for T1 [dBm] = ",
                                  "Maximum power set for T1 [dBm] = ",
                                  "Number of steps for T1 series = ",
                                  "NS for T1",
-                                 "Time to waite between exps. [min]"],
-                                ["0", "30", "10", "3", "1", "0", "30", "4", "3", "2"],
-                                ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"], ["", "", "", "", "", "", "", "", "", ""],
+                                 "D1 for T1 (recommended 25s for NS>1)",
+                                 "Time to wait between exps. [min]"],
+                                ["0", "30", "10", "1", "5", "1", "0", "30", "4", "1", "5", "1"],
+                                ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"], ["", "", "", "", "", "", "", "", "", "", "", ""],
                                 None, None, 0, 15, 0, None)
 dia.setExitUponEnter(0)
 dia.setVisible(1)
@@ -146,7 +149,7 @@ result = dia.getValues()
 if result == None:  # Canceled by user
     EXIT()
 else:
-    dnpMinP, dnpMaxP, dnpSteps, dnpNS, doT1, t1MinP, t1MaxP, t1Steps, t1NS, interExpDelay = result
+    dnpMinP, dnpMaxP, dnpSteps, dnpNS, dnpD1, doT1, t1MinP, t1MaxP, t1Steps, t1NS, t1D1, interExpDelay = result
 
 interExpDelay = float(interExpDelay)
 dnpPowerRange = [round(x, 1) for x in dec_range_non_linear(dnpMinP, dnpMaxP, int(dnpSteps))]
@@ -180,8 +183,14 @@ else:
         pass
 
 RE([str(expNameResult[1]), "1", "1", str(expNameResult[0])], "y")
-# set NS
+MSG('TD is: '+test)
+# set NS & D1
 XCMD("NS " + dnpNS)
+XCMD("D1 " + dnpD1)
+# Check the wobbling
+MSG("Going to run wobbling. Please stop it manually once you're done.", "TopDNP wobb")
+XCMD('wobb')
+MSG("Please adjust frequency offset THEN click close to continue.", "TopDNP frequency adjustment")
 # run freq adjustment
 ZG()
 EFP()
@@ -230,6 +239,10 @@ for i, dnpSet in enumerate(dnpPowerRange):
     # run the experiment
     ZG()
     time.sleep(interExpDelay*60)
+# Try to get O1 for offset
+dnpO1 = GETPAR2("O1")
+MSG("O1 is: "+dnpO1 ,"O1")
+t1O1 = float(dnpO1)-50000
 # Making power zero again
 b12File = open(b12TempFile, 'r+')
 b12File.write("power 0 \n")
@@ -273,6 +286,11 @@ if doT1 and t1Steps>0:
         except:
             ERRMSG("Error changing T1 exp. title!", "TopDNP title change error")
         RE([str(expNameResult[1]), curExpNo, "1", str(expNameResult[0])], "y")
+        # set NS & D1
+        XCMD("NS " + t1NS)
+        XCMD("D1 " + t1D1)
+        # set O1
+        XCMD("O1 " + t1O1)
         # run the experiment
         ZG()
         time.sleep(interExpDelay*60)
@@ -281,4 +299,4 @@ b12File = open(b12TempFile, 'r+')
 b12File.write("power 0 \n")
 b12File.close()
 # Yay?
-MSG("DNP exp. done", "TopDNP done")
+MSG("DNP exp. done!\n Turn off nitrogen flow!", "TopDNP done")
