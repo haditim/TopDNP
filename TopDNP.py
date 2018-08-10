@@ -11,7 +11,7 @@
 python27Path = 'C:\\Python27\\python.exe'
 b12CodePath = 'C:\\Bruker\\TopSpin3.2\\exp\\stan\\nmr\\py\\user\\imports\\b12.py'
 b12TempFile = 'C:\\Users\\nmrsu\\Desktop\\tempTopSpin'
-b12RunTime = '30' # The time that the external code for B12 should keep running in minutes
+b12RunTime = '30'  # The time that the external code for B12 should keep running in minutes
 # IP address of gpib to etherenet converter connected to power meter
 pMeterIP = '134.147.197.144'
 # General parameters
@@ -46,9 +46,13 @@ def dec_range_non_linear(x, y, steps, linFraction=2):
     logStep = steps - linearStep
     for i in range(0, linearStep):
         yield xInc
-        xInc += (y // linFraction - x) // linearStep
-    for i in range(linearStep, steps):
-        xInc = w_to_dbm(dbm_to_w(xInc) + float((dbm_to_w(y) - dbm_to_w(y // linFraction)) / float(logStep)))
+        # xInc += ((y -x)// linFraction) // linearStep
+        xInc = w_to_dbm(dbm_to_w(xInc) + float((dbm_to_w(y / linFraction) - dbm_to_w(x)) / float(linearStep)))
+    for i in range(linearStep, steps - 1):
+        xInc = w_to_dbm(dbm_to_w(xInc) + float((dbm_to_w(y) - dbm_to_w(y / linFraction)) / float(logStep) / 2))
+        yield float(xInc)
+    for i in range(steps - 1, steps):
+        xInc = w_to_dbm(float((dbm_to_w(y))))
         yield float(xInc)
 
 
@@ -102,7 +106,7 @@ dT = datetime.date.today().strftime("%Y%m%d_CWODNP_")
 try:
     powerConn = connect_to_power_meter()
 except:
-    ERRMSG("Error in connecting to power meter. Is it powered on?!", "Power meter error")
+    ERRMSG("Error in connecting to power meter. Is it powered on?!", "TopDNP Power meter error")
     EXIT()
 
 # Ask for exp. name and folder
@@ -119,28 +123,33 @@ expPath = os.path.join(expNameResult[0], expNameResult[1])
 if not os.path.exists(expPath):
     os.makedirs(expPath)
 else:
-  MSG("It seems that folder %s exists. Please rename that if you want to have a new exp." %
-      str(os.path.join(expNameResult[0],expNameResult[1])))
-  EXIT()
+    MSG("It seems that folder %s exists. Please rename that if you want to have a new exp." %
+        str(os.path.join(expNameResult[0], expNameResult[1])))
+    EXIT()
 
 MSG("Experiment path is going to be: \n %s" % str(expPath))
 
 dia = dialogs.MultiLineInputDia("TopDNP",
                                 "Please enter parameters for experiment:",
-                                ["Minimum power set for DNP [dBm] = ",
-                                 "Maximum power set for DNP [dBm] = ",
-                                 "Number of steps for DNP series = ",
+                                ["DNP steps calculation [0=manual, 1=auto]",
+                                 "(if auto) Minimum power set for DNP [dBm] = ",
+                                 "(if auto) Maximum power set for DNP [dBm] = ",
+                                 "(if auto) Number of steps for DNP series = ",
+                                 "Scan backwards too [0=No, 1=Yes]",
                                  "NS for DNP",
                                  "D1 for DNP (recommended 25s for NS>1)",
                                  "Do T1 series [0=No, 1=Yes]",
-                                 "Minimum power set for T1 [dBm] = ",
-                                 "Maximum power set for T1 [dBm] = ",
-                                 "Number of steps for T1 series = ",
+                                 "T1 steps calculation [0=manual, 1=auto]",
+                                 "(if auto) Minimum power set for T1 [dBm] = ",
+                                 "(if auto) Maximum power set for T1 [dBm] = ",
+                                 "(if auto) Number of steps for T1 series = ",
+                                 "Scan backwards too [0=No, 1=Yes]",
                                  "NS for T1",
                                  "D1 for T1",
                                  "Time to wait between exps. [s]"],
-                                ["0", "30", "10", "1", "5", "1", "0", "30", "4", "1", "15", "60"],
-                                ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"], ["", "", "", "", "", "", "", "", "", "", "", ""],
+                                ["0", "0", "38", "20", "1", "1", "5", "1", "0", "0", "30", "4", "1", "1", "15", "60"],
+                                ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+                                ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
                                 None, None, 0, 15, 0, None)
 dia.setExitUponEnter(0)
 dia.setVisible(1)
@@ -149,16 +158,52 @@ result = dia.getValues()
 if result == None:  # Canceled by user
     EXIT()
 else:
-    dnpMinP, dnpMaxP, dnpSteps, dnpNS, dnpD1, doT1, t1MinP, t1MaxP, t1Steps, t1NS, t1D1, interExpDelay = result
+    dnpAuto, dnpMinP, dnpMaxP, dnpSteps, dnpBack, dnpNS, dnpD1, doT1, t1Auto, t1MinP, t1MaxP, t1Steps, t1Back, t1NS, t1D1, interExpDelay = result
 
 interExpDelay = float(interExpDelay)
-dnpPowerRange = [round(x, 1) for x in dec_range_non_linear(dnpMinP, dnpMaxP, int(dnpSteps))]
-t1PowerRange = [round(x, 1) for x in dec_range_linear(t1MinP, t1MaxP, int(t1Steps))]
+if int(dnpAuto) == 1:
+    dnpPowerRange = [round(x, 1) for x in dec_range_linear(dnpMinP, dnpMaxP, int(dnpSteps))]
+else:
+    dnpRangeDia = dialogs.MultiLineInputDia("TopDNP",
+                                           "Please enter power steps for DNP exps. separated by comma",
+                                           ["Powers [dBm]"],
+                                           ["0,6,12,18,24,30,31,32,33,34,35,36"],
+                                           ["0"], [""],
+                                           None, None, 0, 15, 0, None)
+    dnpRangeDia.setExitUponEnter(1)
+    dnpRangeDia.setVisible(1)
+    dnpRangeDia = dnpRangeDia.getValues()
+    try:
+        dnpPowerRange = [float(dnpRangeDia[0].split(',')[i]) for i in range(0, len(dnpRangeDia[0].split(',')))]
+    except:
+        ERRMSG("Error in getting DNP power values.", "TopDNP DNP power series error")
+        EXIT()
+if int(t1Auto) == 1:
+    t1PowerRange = [round(x, 1) for x in dec_range_linear(t1MinP, t1MaxP, int(t1Steps))]
+else:
+    t1RangeDia = dialogs.MultiLineInputDia("TopDNP",
+                                           "Please enter power steps for DNP exps. separated by comma",
+                                           ["Powers [dBm]"],
+                                           ["0,32,35,37,38"],
+                                           ["0"], [""],
+                                           None, None, 0, 15, 0, None)
+    t1RangeDia.setExitUponEnter(1)
+    t1RangeDia.setVisible(1)
+    t1RangeDia = t1RangeDia.getValues()
+    try:
+        t1PowerRange = [float(t1RangeDia[0].split(',')[i]) for i in range(0, len(t1RangeDia[0].split(',')))]
+    except:
+        ERRMSG("Error in getting T1 power values.", "TopDNP T1 power series error")
+        EXIT()
+if int(dnpBack) == 1:
+    dnpPowerRange += dnpPowerRange[::-1][::2]
+if int(t1Back) == 1:
+    t1PowerRange += t1PowerRange[::-1][::2]
 if int(doT1) == 1:
     if not CONFIRM("TopDNP confirmation", "About to do DNP and T1 series \n" +
-                                   "DNP power range: %s" % str(dnpPowerRange) +
-                                   "\n T1 power range: %s" % str(t1PowerRange) +
-                                   "\n Is it correct?") == 1:
+                                          "DNP power range: %s" % str(dnpPowerRange) +
+                                          "\n T1 power range: %s" % str(t1PowerRange) +
+                                          "\n Is it correct?") == 1:
         EXIT()
     try:
         os.makedirs(os.path.join(expPath, "1"))
@@ -172,8 +217,8 @@ if int(doT1) == 1:
         pass
 else:
     if not CONFIRM("TopDNP confirmation", "About to do DNP\n" +
-                                   "DNP power range: %s" % str(dnpPowerRange) +
-                                   "\n Is it correct?") == 1:
+                                          "DNP power range: %s" % str(dnpPowerRange) +
+                                          "\n Is it correct?") == 1:
         EXIT()
     try:
         os.makedirs(os.path.join(expPath, "1"))
@@ -241,7 +286,7 @@ for i, dnpSet in enumerate(dnpPowerRange):
 # Try to get O1 for offset
 dnpO1 = GETPAR2("O1")
 # MSG("O1 is: "+dnpO1 ,"O1")
-t1O1 = float(dnpO1)-50000
+t1O1 = float(dnpO1) - 50000
 # Making power zero again
 b12File = open(b12TempFile, 'r+')
 b12File.write("power 0 \n")
@@ -249,7 +294,7 @@ b12File.close()
 # I would wait 5 minutes
 time.sleep(5)
 # T1 loop
-if doT1 and t1Steps>0:
+if doT1 and t1Steps > 0:
     for i, t1Set in enumerate(t1PowerRange):
         curExpNo = str(i + 50)
         prevExpNo = str(i + 49)
