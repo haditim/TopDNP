@@ -1,11 +1,11 @@
 ##TITLE= Parameter file, TOPSPIN		Version 3.2
 ##JCAMPDX= 5.0
 ##DATATYPE= Parameter Values
-##NPOINTS= 101	$$ modification sequence number
+##NPOINTS= 109	$$ modification sequence number
 ##ORIGIN= Bruker BioSpin GmbH
 ##OWNER= nmrsu
-$$ 2018-05-18 17:49:04.854 +0200  nmrsu@CZC5064J6S
-$$ C:/NMRUserData/Svetlana/20180518_TCDA1_ON_pH11/29/acqus
+$$ 2018-08-13 18:03:38.175 +0200  nmrsu@CZC5064J6S
+$$ C:/NMRUserData/Svetlana/20180813_Water_Tube07_T1_PleaseWork/50/acqus
 $$ process C:\Bruker\TopSpin3.2\prog\mod\shimcntl.exe
 ##$ACQT0= 1000000
 ##$AMP= (0..31)
@@ -38,10 +38,10 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\shimcntl.exe
 ##$CPDPRG= (0..8)
 <> <> <> <> <mlev> <mlev> <mlev> <mlev> <mlev>
 ##$D= (0..63)
-0 15 0.0005 14.6999 0 0 0 0 0 0.06 0 0.1 0 0 0 0 0.0002 0 0 0 0 0 0 0 0
+0 25 0.0005 24.6999 0 0 0 0 0 0.06 0 0.1 0 0 0 0 0.0002 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 9.3455 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0
-##$DATE= 1526657961
+##$DATE= 1534175305
 ##$DE= 116.5714
 ##$DECBNUC= <off>
 ##$DECIM= 2005.33333333333
@@ -161,7 +161,7 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\shimcntl.exe
 ##$NusSEED= 54321
 ##$NusT2= 1
 ##$NusTD= 0
-##$O1= 3183.74
+##$O1= 13724.93
 ##$O2= 0
 ##$O3= 1235.88
 ##$O4= 1235.88
@@ -234,7 +234,7 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\shimcntl.exe
 83 4 83 83 83 83 83 83
 ##$SELREC= (0..9)
 0 0 0 0 0 0 0 0 0 0
-##$SFO1= 14.85318374
+##$SFO1= 14.86372493
 ##$SFO2= 300.13
 ##$SFO3= 300.13123588
 ##$SFO4= 300.13123588
@@ -273,7 +273,7 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\shimcntl.exe
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 ##$SUBNAM= (0..9)
 <""> <""> <""> <""> <""> <""> <""> <""> <""> <"">
-##$SW= 671.465756426383
+##$SW= 670.989560307959
 ##$SWIBOX= (0..19)
 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 ##$SW_h= 9973.40425531915
@@ -312,8 +312,8 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\shimcntl.exe
 0 0 0 0
 ##$XL= 0
 ##$YL= 0
-##$YMAX_a= 3043
-##$YMIN_a= -1689
+##$YMAX_a= 1717
+##$YMIN_a= -2542
 ##$ZGOPTNS= <>
 ##$ZL1= 120
 ##$ZL2= 120

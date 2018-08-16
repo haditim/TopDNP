@@ -1,1 +1,1 @@
-cw T1, jf_fir, MW off, set -17 dBm
+T1 set 0.879 dBm

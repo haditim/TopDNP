@@ -11,7 +11,7 @@
 python27Path = 'C:\\Python27\\python.exe'
 b12CodePath = 'C:\\Bruker\\TopSpin3.2\\exp\\stan\\nmr\\py\\user\\imports\\b12.py'
 b12TempFile = 'C:\\Users\\nmrsu\\Desktop\\tempTopSpin'
-b12RunTime = '30'  # The time that the external code for B12 should keep running in minutes
+b12RunTime = '300'  # The time that the external code for B12 should keep running in minutes
 # IP address of gpib to etherenet converter connected to power meter
 pMeterIP = '134.147.197.144'
 # General parameters
@@ -28,8 +28,13 @@ import math
 import time
 import imports.gpib_eth as g
 
+# initializing the process kill for previous python sessions
+b12File = open(b12TempFile, 'r+')
+b12File.write("break \n")
+b12File.close()
 # Start code to control B12
-subprocess.Popen('%s %s %s %s' % (python27Path, b12CodePath, b12TempFile, str(waitTime)))
+b12Script = subprocess.Popen('%s %s %s %s' % (python27Path, b12CodePath, b12TempFile, str(waitTime)))
+status = subprocess.Popen.poll(b12Script)
 
 
 # Functions we need :
@@ -88,15 +93,16 @@ def connect_to_power_meter(gpibaddr=14, ipaddr=pMeterIP):
 # Initialize C:\tempTopSpin for B12 commands
 # Unfortunately, we have to open and close the file every time we want B12 commands
 b12File = open(b12TempFile, 'r+')
+# initializing the process kill for previous python sessions
 freqResult = INPUT_DIALOG("Frequency input",
-                          "Please set the waveguide switch to DNP mode\n"
-                          "(and yell at B12 for not implementing this yet)\n "
+                          "About to set the waveguide switch to DNP mode\n"
                           "Turn on nitrogen flow and unplug the mod. coil\n "
                           "AND\n"
                           "enter center frequency to set for B12.",
                           ["Frequency [kHz] = "], ["9800000"], [""], ["1"])
 b12File.write("power 0 \n")
 b12File.write("freq " + freqResult[0] + "\n")
+b12File.write("wgstatus 1 \n")
 b12File.close()
 
 # datetime for experiment folder name
@@ -147,7 +153,7 @@ dia = dialogs.MultiLineInputDia("TopDNP",
                                  "NS for T1",
                                  "D1 for T1",
                                  "Time to wait between exps. [s]"],
-                                ["0", "0", "38", "20", "1", "1", "5", "1", "0", "0", "30", "4", "1", "1", "15", "60"],
+                                ["0", "0", "38", "20", "1", "1", "5", "1", "0", "0", "30", "4", "1", "1", "25", "5"],
                                 ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
                                 ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
                                 None, None, 0, 15, 0, None)
@@ -182,7 +188,7 @@ if int(t1Auto) == 1:
     t1PowerRange = [round(x, 1) for x in dec_range_linear(t1MinP, t1MaxP, int(t1Steps))]
 else:
     t1RangeDia = dialogs.MultiLineInputDia("TopDNP",
-                                           "Please enter power steps for DNP exps. separated by comma",
+                                           "Please enter power steps for T1 exps. separated by comma",
                                            ["Powers [dBm]"],
                                            ["0,32,35,37,38"],
                                            ["0"], [""],
@@ -196,9 +202,9 @@ else:
         ERRMSG("Error in getting T1 power values.", "TopDNP T1 power series error")
         EXIT()
 if int(dnpBack) == 1:
-    dnpPowerRange += dnpPowerRange[::-1][::2]
+    dnpPowerRange += dnpPowerRange[::-1][1::2]
 if int(t1Back) == 1:
-    t1PowerRange += t1PowerRange[::-1][::2]
+    t1PowerRange += t1PowerRange[::-1][1::2]
 if int(doT1) == 1:
     if not CONFIRM("TopDNP confirmation", "About to do DNP and T1 series \n" +
                                           "DNP power range: %s" % str(dnpPowerRange) +
@@ -240,7 +246,10 @@ ZG()
 EFP()
 MSG("Please adjust frequency offset THEN click close to continue.", "TopDNP frequency adjustment")
 ZG()
-if not CONFIRM("TopDNP confirmation", "Please turn MW on.") == 1:
+b12File = open(b12TempFile, 'r+')
+b12File.write("rfstatus 1 \n")
+b12File.close()
+if not CONFIRM("TopDNP confirmation", "Is the MW on?") == 1:
     EXIT()
 # DNP loop
 for i, dnpSet in enumerate(dnpPowerRange):
@@ -341,6 +350,8 @@ if doT1 and t1Steps > 0:
 # Making power zero again
 b12File = open(b12TempFile, 'r+')
 b12File.write("power 0 \n")
+b12File.write("rfstatus 0 \n")
 b12File.close()
+
 # Yay?
 MSG("DNP exp. done!\n Turn off nitrogen flow!\nTurn MW off!", "TopDNP done")
