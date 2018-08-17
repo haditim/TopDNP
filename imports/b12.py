@@ -68,8 +68,7 @@ while True:
             commands.append(line.strip())
     with open(temp, 'w') as delFile:
         delFile.write("")
-    print commands
-    if "break" in commands:
+    if "break" in commands and i>10000:
         print "Killing myself..."
         break
     else:

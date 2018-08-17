@@ -354,4 +354,4 @@ b12File.write("rfstatus 0 \n")
 b12File.close()
 
 # Yay?
-MSG("DNP exp. done!\n Turn off nitrogen flow!\nTurn MW off!", "TopDNP done")
+MSG("DNP exp. done!\n Turn off nitrogen flow!", "TopDNP done")
