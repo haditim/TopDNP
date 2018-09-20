@@ -1,11 +1,11 @@
 ##TITLE= Parameter file, TOPSPIN		Version 3.2
 ##JCAMPDX= 5.0
 ##DATATYPE= Parameter Values
-##NPOINTS= 22	$$ modification sequence number
+##NPOINTS= 24	$$ modification sequence number
 ##ORIGIN= Bruker BioSpin GmbH
 ##OWNER= nmrsu
-$$ 2018-05-18 17:38:14.354 +0200  nmrsu@CZC5064J6S
-$$ C:/NMRUserData/Svetlana/20180518_TCDA1_ON_pH11/29/acqu2
+$$ 2018-08-13 17:47:03.916 +0200  nmrsu@CZC5064J6S
+$$ C:/NMRUserData/Svetlana/20180813_Water_Tube07_T1_PleaseWork/50/acqu2
 $$ process C:\Bruker\TopSpin3.2\prog\mod\dataserver.exe
 ##$ACQT0= 0
 ##$BF1= 14.85
@@ -14,9 +14,9 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\dataserver.exe
 ##$NusJSP= 0
 ##$NusT2= 1
 ##$NusTD= 0
-##$O1= 3183.74000000077
-##$SFO1= 14.85318374
-##$SW= 67.3256331776853
+##$O1= 13724.9300000004
+##$SFO1= 14.86372493
+##$SW= 67.2778865802114
 ##$SW_h= 1000
 ##$TD= 10
 ##END=

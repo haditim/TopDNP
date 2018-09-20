@@ -1,10 +1,10 @@
 ##TITLE= Parameter file, TOPSPIN		Version 3.2
 ##JCAMPDX= 5.0
 ##DATATYPE= Parameter Values
-##NPOINTS= 1288	$$ modification sequence number
+##NPOINTS= 1335	$$ modification sequence number
 ##ORIGIN= Bruker BioSpin GmbH
 ##OWNER= nmrsu
-$$ 2018-05-18 11:55:15.465 +0200  nmrsu@CZC5064J6S
+$$ 2018-08-13 14:46:00.784 +0200  nmrsu@CZC5064J6S
 $$ C:/Bruker/TopSpin3.2/conf/instr/spect/specpar
 $$ process C:\Bruker\TopSpin3.2\prog\mod\cprserver.exe
 ##$ANCIEN= (0..7)

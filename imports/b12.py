@@ -17,7 +17,7 @@ try:
     runTime = sys.argv[2]
 except Exception as e:
     print "Error {} occured when trying to get tempFile and runTime from argv".format(e)
-    tempFile = "C:\\tempTopSpin"
+    tempFile = "C:\\Users\\nmrsu\\Desktop\\tempTopSpin"
     runTime = 30
 
 
@@ -60,19 +60,23 @@ except Exception as e:
 commands = []
 temp = tempFile
 i = 0
-while i < runTime*60:
+while True:
     i += 1
     with open(temp, 'r') as tempFile:
         lines = tempFile.readlines()
         for line in lines:
-            commands.append(line)
+            commands.append(line.strip())
     with open(temp, 'w') as delFile:
         delFile.write("")
-    for i, command in enumerate(commands):
-        print "command received %s" % command
-        bridge12_con.send_command(command)
-        print bridge12_con.read()
-        commands.pop(i)
+    if "break" in commands and i>10000:
+        print "Killing myself..."
+        break
+    else:
+        for i, command in enumerate(commands):
+            print "command received %s" % command
+            bridge12_con.send_command(command)
+            print bridge12_con.read()
+            commands.pop(i)
     if i % 15 == 0:
         print "I'm waiting for commands in file {}".format(tempFile)
     time.sleep(1)

@@ -2,17 +2,17 @@
 ##JCAMPDX= 5.01
 ##ORIGIN= Bruker BioSpin GmbH
 ##OWNER= nmrsu
-$$ C:/NMRUserData/Svetlana/20180518_TCDA1_ON_pH11/29/audita.txt
+$$ C:/NMRUserData/Svetlana/20180813_Water_Tube07_T1_PleaseWork/50/audita.txt
 ##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
-(   1,<2018-05-18 17:49:04.713 +0200>,<nmrsu>,<CZC5064J6S>,<go>,<TOPSPIN 3.2>,
+(   1,<2018-08-13 18:03:38.040 +0200>,<nmrsu>,<CZC5064J6S>,<go>,<TOPSPIN 3.2>,
       <created by zg
-	started at 2018-05-18 17:38:32.938 +0200,
+	started at 2018-08-13 17:47:06.691 +0200,
 	POWCHK enabled, PULCHK disabled,
        configuration hash MD5:
        A4 10 7F 46 6D B2 6B DF D5 38 ED 9A D1 53 E1 C0
        data hash MD5: 5986 * 10
-       2F D2 B1 76 4E 67 78 70 CC 62 FB DD 64 6F 37 C9>)
+       A4 E6 BC 02 F6 D4 F0 F5 B1 DF EA A7 B6 85 D2 03>)
 ##END=
 
 $$ hash MD5
-$$ 43 2E EB E3 E3 1B 22 AF A5 AE 52 8A 90 2F 9F FE
+$$ EB 20 2C D8 34 73 22 28 58 3E 2F 99 70 42 55 CD
