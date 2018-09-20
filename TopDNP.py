@@ -7,12 +7,15 @@
 
 
 # Adjust things here
-# To control B12
+# To control B12 set controlB12 to True
+controlB12 = True
 python27Path = 'C:\\Python27\\python.exe'
 b12CodePath = 'C:\\Bruker\\TopSpin3.2\\exp\\stan\\nmr\\py\\user\\imports\\b12.py'
 b12TempFile = 'C:\\Users\\nmrsu\\Desktop\\tempTopSpin'
 b12RunTime = '30' # The time that the external code for B12 should keep running in minutes
 # IP address of gpib to etherenet converter connected to power meter
+# To control power meter, set controlPowerMeter to True
+controlPowerMeter = True
 pMeterIP = '134.147.197.144'
 # General parameters
 scriptPath = 'C:\Bruker\TopSpin3.2\exp\stan\\nmr\py\user'  # The path this code is in
@@ -21,15 +24,15 @@ waitTime = 4  # Time to wait after giving order to B12
 powerReadoutAverage = 50  # The number of averages made to get the real power readout
 
 import os
-import subprocess
 import datetime
 import math
 import time
 import imports.gpib_eth as g
 
-# Start code to control B12
-subprocess.Popen('%s %s %s %s' % (python27Path, b12CodePath, b12TempFile, str(waitTime)))
-
+if controlB12:
+    import subprocess
+    # Start code to control B12
+    subprocess.Popen('%s %s %s %s' % (python27Path, b12CodePath, b12TempFile, str(waitTime)))
 
 # Functions we need :
 def dec_range_non_linear(x, y, steps, linFraction=2):
@@ -96,12 +99,13 @@ b12File.close()
 # datetime for experiment folder name
 dT = datetime.date.today().strftime("%Y%m%d_CWODNP_")
 
-# test connections:
-try:
-    powerConn = connect_to_power_meter()
-except:
-    ERRMSG("Error in connecting to power meter. Is it powered on?!", "Power meter error")
-    EXIT()
+if controlPowerMeter:
+    # test connections:
+    try:
+        powerConn = connect_to_power_meter()
+    except:
+        ERRMSG("Error in connecting to power meter. Is it powered on?!", "Power meter error")
+        EXIT()
 
 # Ask for exp. name and folder
 expNameDia = dialogs.MultiLineInputDia("TopDNP",
@@ -196,10 +200,13 @@ for i, dnpSet in enumerate(dnpPowerRange):
     b12File.close()
     # This should be optimized
     time.sleep(waitTime)
-    for j in range(0, powerReadoutAverage):
-        powerAvg += powerConn.read_power()
-        time.sleep(.1)
-    powerAvg /= float(powerReadoutAverage)
+    if controlPowerMeter:
+        for j in range(0, powerReadoutAverage):
+            powerAvg += powerConn.read_power()
+            time.sleep(.1)
+        powerAvg /= float(powerReadoutAverage)
+    else:
+        powerAvg = dnpSet
     # MSG("power for exp %s powerset %s is %s" % (curExpNo, str(int(dnpSet * 10)), str(powerAvg)))
     try:
         os.makedirs(curExpPath)
@@ -240,10 +247,13 @@ if doT1 and t1Steps>0:
         b12File.write("power %s \n" % str(int(t1Set * 10)))
         b12File.close()
         time.sleep(waitTime)
-        for j in range(0, powerReadoutAverage):
-            powerAvg += powerConn.read_power()
-            time.sleep(.1)
-        powerAvg /= float(powerReadoutAverage)
+        if controlPowerMeter:
+            for j in range(0, powerReadoutAverage):
+                powerAvg += powerConn.read_power()
+                time.sleep(.1)
+            powerAvg /= float(powerReadoutAverage)
+        else:
+            powerAvg = t1Set
         # MSG("power for exp %s powerset %s is %s" % (curExpNo, str(int(dnpSet * 10)), str(powerAvg)))
         if i != 0:
             try:
