@@ -153,7 +153,7 @@ dia = dialogs.MultiLineInputDia("TopDNP",
                                  "NS for T1",
                                  "D1 for T1",
                                  "Time to wait between exps. [s]"],
-                                ["0", "0", "38", "20", "1", "1", "5", "1", "0", "0", "30", "4", "1", "1", "25", "5"],
+                                ["0", "0", "38", "20", "0", "1", "5", "1", "0", "0", "30", "4", "0", "1", "25", "5"],
                                 ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
                                 ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
                                 None, None, 0, 15, 0, None)
@@ -165,15 +165,95 @@ if result == None:  # Canceled by user
     EXIT()
 else:
     dnpAuto, dnpMinP, dnpMaxP, dnpSteps, dnpBack, dnpNS, dnpD1, doT1, t1Auto, t1MinP, t1MaxP, t1Steps, t1Back, t1NS, t1D1, interExpDelay = result
-
+    try:
+        int(dnpAuto) == 0 or int(dnpAuto) == 1
+    except:
+        ERRMSG("Error DNP steps calculation value", "TopDNP error DNP steps calculation value")
+        EXIT()
+    try:
+       0 <= int(dnpMinP) <= 40
+    except:
+        ERRMSG("Error DNP Minimum Power value", "TopDNP error DNP Minimum Power value")
+        EXIT()         
+    try:
+         0 <= int(dnpMaxP) <= 40 and int(dnpMaxP) > int(dnpMinP)
+    except:
+        ERRMSG("Error DNP Maximum Power value", "TopDNP error DNP Maximum Power value")
+        EXIT()    
+    try:
+        int(dnpSteps) > 0
+    except:
+        ERRMSG("Error DNP Steps value", "TopDNP error DNP Steps value")
+        EXIT()     
+    try:
+        int(dnpBack) == 0 or  int(dnpBack) == 1
+    except:
+        ERRMSG("Error DNP Scan Backwards value", "TopDNP error DNP Scan Backwards value")
+        EXIT()    
+    try:
+        int(dnpNS) > 0
+    except:
+        ERRMSG("Error DNP NS value", "TopDNP error DNP NS value")
+        EXIT() 
+    try:
+        int(dnpD1) > 0
+    except:
+        ERRMSG("Error DNP D1 value", "TopDNP error DNP D1 value")
+        EXIT() 
+    try:
+        int(doT1) == 0 or int(doT1) == 1
+    except:
+        ERRMSG("Error T1 value", "TopDNP error T1 value")
+        EXIT()
+    try:
+        int(t1Auto) == 0 or int(t1Auto) == 1
+    except:
+        ERRMSG("Error T1 steps calculation value", "TopDNP error T1 steps calculation value")
+        EXIT() 
+    try:
+       0 <= int(t1MinP) <= 40
+    except:
+        ERRMSG("Error T1 Minimum Power value", "TopDNP error T1 Minimum Power value")
+        EXIT()    
+    try:
+         0 <= int(t1MaxP) <= 40 and int(t1MaxP) > int(t1MinP)
+    except:
+        ERRMSG("Error T1 Maximum Power value", "TopDNP error T1 Maximum Power value")
+        EXIT()      
+    try:
+        int(t1Steps) > 0
+    except:
+        ERRMSG("Error T1 Steps value", "TopDNP error T1 Steps value")
+        EXIT()  
+    try:
+        int(t1Back) == 0 or  int(t1Back) == 1
+    except:
+        ERRMSG("Error T1 Scan Backwards value", "TopDNP error T1 Scan Backwards value")
+        EXIT()        
+    try:
+        int(t1NS) > 0
+    except:
+        ERRMSG("Error T1 NS value", "TopDNP error T1 NS value")
+        EXIT() 
+    try:
+        int(t1D1) > 0
+    except:
+        ERRMSG("Error T1 D1 value", "TopDNP error T1 D1 value")
+        EXIT() 
+    try:
+        int(interExpDelay) > 0
+    except:
+        ERRMSG("Error Waiting Time value", "TopDNP error Waiting Time value")
+        EXIT() 
 interExpDelay = float(interExpDelay)
+
 if int(dnpAuto) == 1:
     dnpPowerRange = [round(x, 1) for x in dec_range_linear(dnpMinP, dnpMaxP, int(dnpSteps))]
 else:
     dnpRangeDia = dialogs.MultiLineInputDia("TopDNP",
                                            "Please enter power steps for DNP exps. separated by comma",
                                            ["Powers [dBm]"],
-                                           ["0,6,12,18,24,30,31,32,33,34,35,36"],
+                                           ["0,3,6,9,12,15,18,21,24,25,26,27,28,29,30"],
                                            ["0"], [""],
                                            None, None, 0, 15, 0, None)
     dnpRangeDia.setExitUponEnter(1)
@@ -184,13 +264,13 @@ else:
     except:
         ERRMSG("Error in getting DNP power values.", "TopDNP DNP power series error")
         EXIT()
-if int(t1Auto) == 1:
+if int(t1Auto) == 1 and int(doT1) == 1:
     t1PowerRange = [round(x, 1) for x in dec_range_linear(t1MinP, t1MaxP, int(t1Steps))]
-else:
+if int(t1Auto) == 0 and int(doT1) == 1:
     t1RangeDia = dialogs.MultiLineInputDia("TopDNP",
                                            "Please enter power steps for T1 exps. separated by comma",
                                            ["Powers [dBm]"],
-                                           ["0,32,35,37,38"],
+                                           ["0,23,26,28,30"],
                                            ["0"], [""],
                                            None, None, 0, 15, 0, None)
     t1RangeDia.setExitUponEnter(1)
@@ -303,7 +383,7 @@ b12File.close()
 # I would wait 5 minutes
 time.sleep(5)
 # T1 loop
-if doT1 and t1Steps > 0:
+if int(doT1) == 1 and t1Steps > 0:
     for i, t1Set in enumerate(t1PowerRange):
         curExpNo = str(i + 50)
         prevExpNo = str(i + 49)
