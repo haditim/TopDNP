@@ -385,9 +385,9 @@ for i, dnpSet in enumerate(dnpPowerRange):
     ZG()
     time.sleep(interExpDelay)
 # Try to get O1 for offset
-dnpO1 = GETPAR2("O1")
+dnpSFO1 = GETPAR2("SFO1")
 # MSG("O1 is: "+dnpO1 ,"O1")
-t1O1 = float(dnpO1) - 50000
+t1SFO1 = float(dnpSFO1)
 # Making power zero again
 b12File = open(b12TempFile, 'r+')
 b12File.write("power 0 \n")
@@ -439,7 +439,7 @@ if int(doT1) == 1 and t1Steps > 0:
         XCMD("NS " + t1NS)
         XCMD("D1 " + t1D1)
         # set O1
-        XCMD("O1 " + str(t1O1))
+        XCMD("SFO1 " + str(t1SFO1))
         # run the experiment
         ZG()
         time.sleep(interExpDelay)
