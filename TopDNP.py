@@ -291,8 +291,6 @@ if int(t1Auto) == 0 and int(doT1) == 1:
         EXIT()
 if int(dnpBack) == 1:
     dnpPowerRange += dnpPowerRange[::-1][1::2]
-if int(t1Back) == 1:
-    t1PowerRange += t1PowerRange[::-1][1::2]
 if int(doT1) == 1:
     if not CONFIRM("TopDNP confirmation", "About to do DNP and T1 series \n" +
                                           "DNP power range: %s" % str(dnpPowerRange) +
@@ -320,7 +318,9 @@ else:
         os.system("xcopy %s %s /E" % (os.path.join(scriptPath, "1"), os.path.join(expPath, "1")))
     except:
         pass
-
+if int(t1Back) == 1:
+    print "T1 back is on"
+    t1PowerRange += t1PowerRange[::-1][1::2]
 RE([str(expNameResult[1]), "1", "1", str(expNameResult[0])], "y")
 # set NS & D1
 XCMD("NS " + dnpNS)
@@ -358,6 +358,7 @@ for i, dnpSet in enumerate(dnpPowerRange):
             powerAvg += powerConn.read_power()
             time.sleep(.1)
         powerAvg /= float(powerReadoutAverage)
+        powerAvg += float(powerMeterCalib)
     else:
         powerAvg = dnpSet
 
@@ -439,7 +440,9 @@ if int(doT1) == 1 and t1Steps > 0:
         XCMD("NS " + t1NS)
         XCMD("D1 " + t1D1)
         # set O1
-        XCMD("SFO1 " + str(t1SFO1))
+        t1BF1 = GETPAR2("BF1")
+        t1BF1 = float(t1BF1)
+        XCMD("O1 " + str((t1SFO1-t1BF1)*1000000))
         # run the experiment
         ZG()
         time.sleep(interExpDelay)

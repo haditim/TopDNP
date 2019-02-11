@@ -1,11 +1,11 @@
 ##TITLE= Parameter file, TOPSPIN		Version 3.2
 ##JCAMPDX= 5.0
 ##DATATYPE= Parameter Values
-##NPOINTS= 871	$$ modification sequence number
+##NPOINTS= 905	$$ modification sequence number
 ##ORIGIN= UXNMR, Bruker Analytische Messtechnik GmbH
 ##OWNER= root
-$$ 2018-05-18 17:25:09.583 +0200  nmrsu@CZC5064J6S
-$$ C:/NMRUserData/Svetlana/20180518_TCDA1_ON_pH11/1/pdata/1/procs
+$$ 2019-02-11 14:00:34.290 +0100  nmrsu@CZC5064J6S
+$$ C:/NMRUserData/HadiTimachi/20190209_PhaseCyclingTest/1/pdata/1/procs
 $$ process C:\Bruker\TopSpin3.2\prog\mod\proc1d.exe
 ##$ABSF1= 0
 ##$ABSF2= 0
@@ -73,14 +73,14 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\proc1d.exe
 ##$Mdd_CsZF= 0
 ##$Mdd_mod= 0
 ##$NCOEF= 0
-##$NC_proc= -14
+##$NC_proc= -16
 ##$NLEV= 6
 ##$NOISF1= -66.58897
 ##$NOISF2= -176.8245
 ##$NSP= 0
 ##$NTH_PI= 346208
 ##$NZP= 0
-##$OFFSET= 1011.583
+##$OFFSET= 9415.615
 ##$PC= 1
 ##$PHC0= 162.6448
 ##$PHC1= -182.4817
@@ -106,7 +106,7 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\proc1d.exe
 ##$SSB= 0
 ##$STSI= 16384
 ##$STSR= 0
-##$SW_p= 23809.5238095239
+##$SW_p= 24038.4615384614
 ##$SYMM= 0
 ##$S_DEV= 0
 ##$TDeff= 19996
@@ -123,6 +123,6 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\proc1d.exe
 ##$USERP5= <user>
 ##$WDW= 1
 ##$XDIM= 8192
-##$YMAX_p= 371914558
-##$YMIN_p= -34445928
+##$YMAX_p= 293944775
+##$YMIN_p= -147184441
 ##END=

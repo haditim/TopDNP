@@ -2,17 +2,17 @@
 ##JCAMPDX= 5.01
 ##ORIGIN= Bruker BioSpin GmbH
 ##OWNER= nmrsu
-$$ C:/NMRUserData/Svetlana/20180518_TCDA1_ON_pH11/1/audita.txt
+$$ C:/NMRUserData/HadiTimachi/20190209_PhaseCyclingTest/1/audita.txt
 ##AUDIT TRAIL=  $$ (NUMBER, WHEN, WHO, WHERE, PROCESS, VERSION, WHAT)
-(   1,<2018-05-18 17:25:05.737 +0200>,<nmrsu>,<CZC5064J6S>,<go>,<TOPSPIN 3.2>,
+(   1,<2019-02-11 14:00:32.122 +0100>,<nmrsu>,<CZC5064J6S>,<go>,<TOPSPIN 3.2>,
       <created by zg
-	started at 2018-05-18 17:24:46.566 +0200,
+	started at 2019-02-11 14:00:23.183 +0100,
 	POWCHK enabled, PULCHK disabled,
        configuration hash MD5:
        A4 10 7F 46 6D B2 6B DF D5 38 ED 9A D1 53 E1 C0
        data hash MD5: 19996
-       19 58 DA EE AD 7C 4C BA 64 36 DA D8 C4 43 9F E5>)
+       03 83 36 5D 77 E2 0B 3F C0 75 24 75 81 31 33 C1>)
 ##END=
 
 $$ hash MD5
-$$ 02 13 35 A0 44 E3 10 AC D5 D4 13 70 53 DE C3 4A
+$$ F2 7C 54 2B 6F CA 9E EF C0 69 7D 3A 87 CC C3 A8

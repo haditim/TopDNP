@@ -1,11 +1,11 @@
 ##TITLE= Parameter file, TOPSPIN		Version 3.2
 ##JCAMPDX= 5.0
 ##DATATYPE= Parameter Values
-##NPOINTS= 3634	$$ modification sequence number
+##NPOINTS= 3811	$$ modification sequence number
 ##ORIGIN= UXNMR, Bruker Analytische Messtechnik GmbH
 ##OWNER= root
-$$ 2018-05-18 17:25:05.753 +0200  nmrsu@CZC5064J6S
-$$ C:/NMRUserData/Svetlana/20180518_TCDA1_ON_pH11/1/acqus
+$$ 2019-02-11 14:00:32.122 +0100  nmrsu@CZC5064J6S
+$$ C:/NMRUserData/HadiTimachi/20190209_PhaseCyclingTest/1/acqus
 $$ process C:\Bruker\TopSpin3.2\prog\mod\go.exe
 ##$ACQT0= -2.22816399286988
 ##$AMP= (0..31)
@@ -41,10 +41,10 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\go.exe
 ##$D= (0..63)
 0 5 0 0 0 0 0 1.2 0 0.06 0 0 0 0 0 0 0.0002 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-##$DATE= 1526657105
+##$DATE= 1549890031
 ##$DE= 100
 ##$DECBNUC= <off>
-##$DECIM= 840
+##$DECIM= 832
 ##$DECNUC= <off>
 ##$DECSTAT= 4
 ##$DIGMOD= 1
@@ -95,7 +95,7 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\go.exe
 ##$GPZ= (0..31)
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 ##$GRDPROG= <>
-##$GRPDLY= 19.9888458251953
+##$GRPDLY= 19.9839324951172
 ##$HDDUTY= 20
 ##$HDRATE= 20
 ##$HGAIN= (0..3)
@@ -144,7 +144,7 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\go.exe
 ##$NC= -6
 ##$NLOGCH= 2
 ##$NOVFLW= 0
-##$NS= 3
+##$NS= 1
 ##$NUC1= <14N>
 ##$NUC2= <off>
 ##$NUC3= <off>
@@ -161,7 +161,7 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\go.exe
 ##$NusSEED= 54321
 ##$NusT2= 1
 ##$NusTD= 0
-##$O1= 53183.29
+##$O1= 177869.25
 ##$O2= 0
 ##$O3= 1235.88
 ##$O4= 1235.88
@@ -222,7 +222,7 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\go.exe
 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 ##$RECSEL= (0..15)
 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-##$RG= 197.09
+##$RG= 87.75
 ##$RO= 0
 ##$ROUTWD1= (0..23)
 0 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0
@@ -234,7 +234,7 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\go.exe
 83 4 83 83 83 83 83 83
 ##$SELREC= (0..9)
 0 0 0 0 0 0 0 0 0 0
-##$SFO1= 14.85318329
+##$SFO1= 14.97786925
 ##$SFO2= 300.13
 ##$SFO3= 300.13123588
 ##$SFO4= 300.13123588
@@ -274,10 +274,10 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\go.exe
 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 ##$SUBNAM= (0..9)
 <""> <""> <""> <""> <""> <""> <""> <""> <""> <"">
-##$SW= 1602.99131470045
+##$SW= 1604.93199247693
 ##$SWIBOX= (0..19)
 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-##$SW_h= 23809.5238095238
+##$SW_h= 24038.4615384615
 ##$SWfinal= 0
 ##$TD= 19996
 ##$TD0= 1
@@ -313,8 +313,8 @@ $$ process C:\Bruker\TopSpin3.2\prog\mod\go.exe
 0 0 0 0
 ##$XL= 0
 ##$YL= 0
-##$YMAX_a= 3743
-##$YMIN_a= -3860
+##$YMAX_a= 1094
+##$YMIN_a= -5609
 ##$ZGOPTNS= <>
 ##$ZL1= 120
 ##$ZL2= 120
