@@ -297,8 +297,6 @@ if int(t1Auto) == 0 and int(doT1) == 1:
 if int(t1Back) == 1:
     print "T1 back is on"
     t1PowerRange += t1PowerRange[::-1][1::2]
-else:
-    print 't1Back is: ', t1Back, 'dnpBack is: ', dnpBack
 
 if int(doT1) == 0:
     if not CONFIRM("TopDNP confirmation", "About to do DNP\n" +
