@@ -37,6 +37,7 @@ if controlB12:
     # initializing the process kill for previous python sessions
     b12File = open(b12TempFile, 'r+')
     b12File.write("break \n")
+    b12File.write("rfstatus 0 \n")
     b12File.close()
     # Start code to control B12
     b12Script = subprocess.Popen('%s %s %s %s' % (python27Path, b12CodePath, b12TempFile, str(waitTime)))
@@ -160,7 +161,7 @@ dia = dialogs.MultiLineInputDia("TopDNP",
                                  "NS for T1",
                                  "D1 for T1",
                                  "Time to wait between exps. [s]"],
-                                ["0", "0", "38", "20", "0", "1", "5", "1", "0", "0", "30", "4", "0", "1", "25", "5"],
+                                ["0", "0", "38", "20", "1", "1", "5", "1", "0", "0", "30", "4", "1", "1", "25", "5"],
                                 ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
                                 ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
                                 None, None, 0, 15, 0, None)
@@ -272,6 +273,10 @@ else:
     except:
         ERRMSG("Error in getting DNP power values.", "TopDNP DNP power series error")
         EXIT()
+if int(dnpBack) == 1:
+    print "DNP back is on"
+    dnpPowerRange += dnpPowerRange[::-1][1::2]    
+    
 if int(t1Auto) == 1 and int(doT1) == 1:
     t1PowerRange = [round(x, 1) for x in dec_range_linear(t1MinP, t1MaxP, int(t1Steps))]
 if int(t1Auto) == 0 and int(doT1) == 1:
@@ -288,9 +293,25 @@ if int(t1Auto) == 0 and int(doT1) == 1:
         t1PowerRange = [float(t1RangeDia[0].split(',')[i]) for i in range(0, len(t1RangeDia[0].split(',')))]
     except:
         ERRMSG("Error in getting T1 power values.", "TopDNP T1 power series error")
+        EXIT() 
+if int(t1Back) == 1:
+    print "T1 back is on"
+    t1PowerRange += t1PowerRange[::-1][1::2]
+
+if int(doT1) == 0:
+    if not CONFIRM("TopDNP confirmation", "About to do DNP\n" +
+                                          "DNP power range: %s" % str(dnpPowerRange) +
+                                          "\n Is it correct?") == 1:
         EXIT()
-if int(dnpBack) == 1:
-    dnpPowerRange += dnpPowerRange[::-1][1::2]
+    try:
+        os.makedirs(os.path.join(expPath, "1"))
+        # This is not a good idea, but Bruker runs the code in another folder
+        os.system("xcopy %s %s /E" % (os.path.join(scriptPath, "1"), os.path.join(expPath, "1")))
+    except:
+        # ERRMSG("Error copying folders!", "Copy error")
+        # EXIT()
+        pass 
+     
 if int(doT1) == 1:
     if not CONFIRM("TopDNP confirmation", "About to do DNP and T1 series \n" +
                                           "DNP power range: %s" % str(dnpPowerRange) +
@@ -307,20 +328,7 @@ if int(doT1) == 1:
         # ERRMSG("Error copying folders!", "Copy error")
         # EXIT()
         pass
-else:
-    if not CONFIRM("TopDNP confirmation", "About to do DNP\n" +
-                                          "DNP power range: %s" % str(dnpPowerRange) +
-                                          "\n Is it correct?") == 1:
-        EXIT()
-    try:
-        os.makedirs(os.path.join(expPath, "1"))
-        # This is not a good idea, but Bruker runs the code in another folder
-        os.system("xcopy %s %s /E" % (os.path.join(scriptPath, "1"), os.path.join(expPath, "1")))
-    except:
-        pass
-if int(t1Back) == 1:
-    print "T1 back is on"
-    t1PowerRange += t1PowerRange[::-1][1::2]
+       
 RE([str(expNameResult[1]), "1", "1", str(expNameResult[0])], "y")
 # set NS & D1
 XCMD("NS " + dnpNS)
