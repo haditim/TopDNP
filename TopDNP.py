@@ -149,7 +149,6 @@ dia = dialogs.MultiLineInputDia("TopDNP",
                                  "(if auto) Minimum power set for DNP [dBm] = ",
                                  "(if auto) Maximum power set for DNP [dBm] = ",
                                  "(if auto) Number of steps for DNP series = ",
-                                 "Scan backwards too [0=No, 1=Yes]",
                                  "NS for DNP",
                                  "D1 for DNP (recommended 25s for NS>1)",
                                  "Do T1 series [0=No, 1=Yes]",
@@ -157,11 +156,12 @@ dia = dialogs.MultiLineInputDia("TopDNP",
                                  "(if auto) Minimum power set for T1 [dBm] = ",
                                  "(if auto) Maximum power set for T1 [dBm] = ",
                                  "(if auto) Number of steps for T1 series = ",
-                                 "Scan backwards too [0=No, 1=Yes]",
                                  "NS for T1",
                                  "D1 for T1",
-                                 "Time to wait between exps. [s]"],
-                                ["0", "0", "38", "20", "1", "1", "5", "1", "0", "0", "30", "4", "1", "1", "25", "5"],
+                                 "Time to wait between exps. [s]",
+                                 "Scan backwards DNP [0=No, 1=Yes]",
+                                 "Scan backwards T1 [0=No, 1=Yes]"],
+                                ["0", "0", "38", "20", "1", "5", "1", "0", "0", "30", "4", "1", "25", "5", "1", "1"],
                                 ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
                                 ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
                                 None, None, 0, 15, 0, None)
@@ -172,7 +172,7 @@ result = dia.getValues()
 if result == None:  # Canceled by user
     EXIT()
 else:
-    dnpAuto, dnpMinP, dnpMaxP, dnpSteps, dnpBack, dnpNS, dnpD1, doT1, t1Auto, t1MinP, t1MaxP, t1Steps, t1Back, t1NS, t1D1, interExpDelay = result
+    dnpAuto, dnpMinP, dnpMaxP, dnpSteps, dnpNS, dnpD1, doT1, t1Auto, t1MinP, t1MaxP, t1Steps, t1NS, t1D1, interExpDelay, dnpBack, t1Back  = result
     try:
         int(dnpAuto) == 0 or int(dnpAuto) == 1
     except:
@@ -297,6 +297,8 @@ if int(t1Auto) == 0 and int(doT1) == 1:
 if int(t1Back) == 1:
     print "T1 back is on"
     t1PowerRange += t1PowerRange[::-1][1::2]
+else:
+    print 't1Back is: ', t1Back, 'dnpBack is: ', dnpBack
 
 if int(doT1) == 0:
     if not CONFIRM("TopDNP confirmation", "About to do DNP\n" +
@@ -329,6 +331,7 @@ if int(doT1) == 1:
         # EXIT()
         pass
        
+    
 RE([str(expNameResult[1]), "1", "1", str(expNameResult[0])], "y")
 # set NS & D1
 XCMD("NS " + dnpNS)
